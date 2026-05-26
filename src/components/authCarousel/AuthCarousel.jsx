@@ -7,9 +7,7 @@ const AuthCarousel = ({ images, page }) => {
   // AUTO SLIDE
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prev) =>
-        prev === images.length - 1 ? 0 : prev + 1
-      );
+      setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
     }, 3000);
 
     return () => clearInterval(interval);
@@ -17,7 +15,6 @@ const AuthCarousel = ({ images, page }) => {
 
   return (
     <div className="relative h-full rounded-[20px] overflow-hidden w-[80%] mx-auto">
-      
       {/* IMAGE */}
       <img
         src={images[currentIndex]}
@@ -37,7 +34,6 @@ const AuthCarousel = ({ images, page }) => {
 
       {/* BOTTOM CONTENT */}
       <div className="absolute bottom-8 left-7 right-7 z-10 text-white">
-
         {/* SLIDER INDICATORS */}
         <div className="flex items-center gap-2 mb-6">
           {images.map((_, index) => (
@@ -61,51 +57,47 @@ const AuthCarousel = ({ images, page }) => {
 
         {/* STATS */}
         {page === "signup" && (
-        <div className="flex flex-wrap gap-5 mt-10">
-          
-          {/* PROPERTY */}
-          <div className="flex items-start gap-3">
-            <div className="mt-1">
-              <FaHouse className="text-[18px]" />
+          <div className="flex flex-wrap gap-5 mt-10">
+            {/* PROPERTY */}
+            <div className="flex items-start gap-3">
+              <div className="mt-1">
+                <FaHouse className="text-[18px]" />
+              </div>
+
+              <div>
+                <h3 className="text-[22px] font-bold">40k+</h3>
+                <p className="text-[13px] text-gray-200 mt-1">
+                  Premium Property
+                </p>
+              </div>
             </div>
 
-            <div>
-              <h3 className="text-[22px] font-bold">40k+</h3>
-              <p className="text-[13px] text-gray-200 mt-1">
-                Premium Property
-              </p>
-            </div>
-          </div>
+            {/* AGENTS */}
+            <div className="flex items-start gap-3">
+              <div className="mt-1">
+                <FaUser className="text-[18px]" />
+              </div>
 
-          {/* AGENTS */}
-          <div className="flex items-start gap-3">
-            <div className="mt-1">
-              <FaUser className="text-[18px]" />
-            </div>
-
-            <div>
-              <h3 className="text-[22px] font-bold">4k+</h3>
-              <p className="text-[13px] text-gray-200 mt-1">
-                Real Estate Agent
-              </p>
-            </div>
-          </div>
-
-          {/* DEVELOPERS */}
-          <div className="flex items-start gap-3">
-            <div className="mt-1">
-              <FaBuilding className="text-[18px]" />
+              <div>
+                <h3 className="text-[22px] font-bold">4k+</h3>
+                <p className="text-[13px] text-gray-200 mt-1">
+                  Real Estate Agent
+                </p>
+              </div>
             </div>
 
-            <div>
-              <h3 className="text-[22px] font-bold">2k+</h3>
-              <p className="text-[13px] text-gray-200 mt-1">
-                Developers
-              </p>
+            {/* DEVELOPERS */}
+            <div className="flex items-start gap-3">
+              <div className="mt-1">
+                <FaBuilding className="text-[18px]" />
+              </div>
+
+              <div>
+                <h3 className="text-[22px] font-bold">2k+</h3>
+                <p className="text-[13px] text-gray-200 mt-1">Developers</p>
+              </div>
             </div>
           </div>
-
-        </div>
         )}
       </div>
     </div>
