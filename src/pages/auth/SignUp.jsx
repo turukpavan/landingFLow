@@ -4,10 +4,8 @@ import image1 from "../../assets/images/image1.png";
 import image2 from "../../assets/images/image2.png";
 import image3 from "../../assets/images/image3.png";
 
-import axios from "axios";
 import { toast } from "react-toastify";
 
-import { BASE_URL } from "../../api/api";
 
 import {
   FaApple,
@@ -25,7 +23,8 @@ import {
 
 import AuthCarousel from "../../components/authCarousel/AuthCarousel";
 import { useNavigate } from "react-router-dom";
-import VeryWithOtp from "../../components/verifyWithOtp/VeryWithOtp";
+import VerifyWithOtp from "../../components/verifyWithOtp/VerifyWithOtp";
+import { authService } from "../../services/authService";
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -67,16 +66,14 @@ const SignupPage = () => {
     }
 
     try {
-      const res = await axios.post(
-        `${BASE_URL}/auth/register/${activeRole}`,
-        formData,
-      );
+      const res =  await authService.register( activeRole,formData);
+     
 
-      toast.success(res.data.message || "OTP sent successfully");
+      toast.success(res.message || "OTP sent successfully");
 
       setShowOtpInput(true);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Signup failed");
+      toast.error(error?.message || "Signup failed");
     }
   };
 
@@ -113,7 +110,7 @@ const SignupPage = () => {
         <div className="flex items-center justify-center min-h-screen lg:h-screen px-4 sm:px-6 py-5 lg:py-0">
           {showOtpInput ? (
             // OTP SECTION
-            <VeryWithOtp
+            <VerifyWithOtp
               email={formData.email}
               showotpScreen={setShowOtpInput}
               type="signup"

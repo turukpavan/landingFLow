@@ -1,9 +1,8 @@
-import axios from "axios";
 import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
-import { BASE_URL } from "../../api/api";
 import { toast } from "react-toastify";
-import VeryWithOtp from "../verifyWithOtp/VeryWithOtp";
+import VerifyWithOtp from "../verifyWithOtp/VerifyWithOtp";
+import { authService } from "../../services/authService";
 
 export default function ForgotPassword({ setForgetPassword }) {
   const [loading, setLoading] = useState(false);
@@ -11,22 +10,20 @@ export default function ForgotPassword({ setForgetPassword }) {
   const [codeScreen, setCodeScreen] = useState(false);
   useState(["", "", "", "", "", ""]);
   // submit button for forgetpassword screen
-  const handleSendCode = async (e) => {
+  const handleForgotPassward = async (e) => {
     e.preventDefault();
     // Handle sending the code here
     try {
       setLoading(true);
-      const res = await axios.post(`${BASE_URL}/auth/forgot-password`, {
-        email,
-      });
+      const res = await authService.forgotPassword({email});
       if (res.status === 200) {
-        toast.success(res.data.otp || "Verification code sent to your email.");
+        toast.success(res?.otp || "Verification code sent to your email.");
       }
       setCodeScreen(true);
       setLoading(false);
     } catch (error) {
       toast.error(
-        error.response?.data?.message || "Failed to send verification code.",
+        error?.message || "Failed to send verification code.",
       );
       setLoading(false);
     } finally {
@@ -38,7 +35,7 @@ export default function ForgotPassword({ setForgetPassword }) {
     <>
       {codeScreen ? (
         // otp screen
-        <VeryWithOtp
+        <VerifyWithOtp
           email={email}
           showotpScreen={setCodeScreen}
           type="forgotPassword"
@@ -68,7 +65,7 @@ export default function ForgotPassword({ setForgetPassword }) {
           </div>
 
           {/* Form Section */}
-          <form onSubmit={handleSendCode} className="flex flex-col gap-5">
+          <form onSubmit={handleForgotPassward} className="flex flex-col gap-5">
             <div className="flex flex-col gap-1.5">
               <label
                 htmlFor="email"

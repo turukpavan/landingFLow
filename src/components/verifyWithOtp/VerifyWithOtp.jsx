@@ -1,11 +1,10 @@
-import axios from "axios";
 import { useState } from "react";
 import { FaChevronLeft } from "react-icons/fa6";
-import { BASE_URL } from "../../api/api";
 import { toast } from "react-toastify";
 import ResetPassword from "../resetPassword/ResetPassword";
+import { authService } from "../../services/authService";
 
-const VeryWithOtp = ({ email, showotpScreen, type }) => {
+const VerifyWithOtp = ({ email, showotpScreen, type }) => {
   const [showResetPassScreen, setShowResetPassScreen] = useState(false);
   const [otp, setOtp] = useState("");
 
@@ -38,31 +37,21 @@ const VeryWithOtp = ({ email, showotpScreen, type }) => {
   // RESEND OTP
   const handleResendOtp = async () => {
     try {
-      const res = await axios.post(`${BASE_URL}/auth/resend-otp`, {
-        email: email,
-      });
+      const res = await authService.resendOtp({email: email});
 
-      toast.success(res.data.message || "OTP Resent Successfully");
+      toast.success(res?.message || "OTP Resent Successfully");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed To Resend OTP");
+      toast.error(error?.message || "Failed To Resend OTP");
     }
   };
 
   // VERIFY OTP
   const handleVerifyOtp = async () => {
     try {
-      const res = await axios.post(
-        `${BASE_URL}/auth/verify-otp`,
-        {
-          email: email,
-          otp,
-        },
-        {
-          withCredentials: true,
-        },
-      );
+      const res = await authService.verifyOtp({email,otp})
+     
       type === "signup" &&
-        toast.success(res.data.message || "Account created successfully");
+        toast.success(res?.message || "Account created successfully");
 
       setOtp("");
 
@@ -74,7 +63,7 @@ const VeryWithOtp = ({ email, showotpScreen, type }) => {
 
       // add reset password
     } catch (error) {
-      toast.error(error.response?.data?.message || "Invalid OTP");
+      toast.error(error?.message || "Invalid OTP");
     }
   };
   return showResetPassScreen ? (
@@ -144,4 +133,4 @@ const VeryWithOtp = ({ email, showotpScreen, type }) => {
   );
 };
 
-export default VeryWithOtp;
+export default VerifyWithOtp;

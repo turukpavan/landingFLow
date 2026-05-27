@@ -1,7 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
-import { BASE_URL } from "../../api/api";
 
 import {
   FaArrowLeft,
@@ -20,6 +18,7 @@ import image3 from "../../assets/images/image3.png";
 import AuthCarousel from "../../components/authCarousel/AuthCarousel";
 import { useNavigate } from "react-router-dom";
 import ForgotPassword from "../../components/forgetPassword/ForgetPassward";
+import { authService } from "../../services/authService";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -49,13 +48,11 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      await axios.post(`${BASE_URL}/auth/login`, formData, {
-        withCredentials: true,
-      });
+     const  res=  await authService.login(formData);
 
-      toast.success("Login successful");
+      toast.success(res?.message || "Login successful");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Login failed");
+      toast.error(error?.message || "Login failed");
     }
   };
 

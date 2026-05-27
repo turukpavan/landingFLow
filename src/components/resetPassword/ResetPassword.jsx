@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { BASE_URL } from "../../api/api";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { authService } from "../../services/authService";
 
 export default function ResetPassword({ email }) {
   const [newPassword, setNewPassword] = useState("");
@@ -9,26 +8,27 @@ export default function ResetPassword({ email }) {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleResetPassward = async (e) => {
     e.preventDefault();
     if (newPassword !== confirmPassword) {
-      alert("Passwords do not match!");
+      toast.error("Passwords do not match!");
       return;
+
     }
 
     // Handle resetting the password here
     try {
-      const res = await axios.post(`${BASE_URL}/auth/reset-password`, {
-        email,
+      const res = await authService.resetPassword({ 
+        email : email,
         password: newPassword,
         password_confirmation: confirmPassword,
-      });
+      })
       toast.success(
-        res.data.message ||
+        res?.message ||
           "Password reset successful. You can now log in with your new password.",
       );
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to reset password.");
+      toast.error(error?.message || "Failed to reset password.");
     }
   };
 
@@ -45,7 +45,7 @@ export default function ResetPassword({ email }) {
       </div>
 
       {/* Form Section */}
-      <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+      <form onSubmit={handleResetPassward} className="flex flex-col gap-5">
         {/* New Password Input */}
         <div className="flex flex-col gap-1.5">
           <label
