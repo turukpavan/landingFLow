@@ -1,10 +1,11 @@
+import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/auth/LogIn";
 import SignupPage from "./pages/auth/SignUp";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import Home from "./pages/home/Home";
-import ProtectedRoute from "./routes/protected.Route";
+import HomeRoute from "./routes/Home.Route";
+import ProtectedRoute from "./routes/Protected.Route";
+import RootLayout from "./Layout/RootLayout";
 const App = () => {
   return (
     <div>
@@ -24,7 +25,9 @@ const App = () => {
           <Route path="*" element={<Navigate to="/auth/login" />} />
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<Home />} />
+            <Route element={<RootLayout />}>
+              <Route path="/" element={<HomeRoute />} />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>
