@@ -21,7 +21,7 @@ import {
   FaUser,
 } from "react-icons/fa6";
 
-import AuthCarousel from "../../components/authCarousel/AuthCarousel";
+import AuthCarousel from "../../components/carousels/AuthCarousel";
 import { useNavigate } from "react-router-dom";
 import VerifyWithOtp from "../../components/verifyWithOtp/VerifyWithOtp";
 import { authService } from "../../services/authService";
@@ -172,6 +172,7 @@ const SignupPage = () => {
                     <FaRegUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[11px]" />
 
                     <input
+                    required
                       type="text"
                       name="full_name"
                       value={formData.full_name}
@@ -192,6 +193,7 @@ const SignupPage = () => {
                     <FaRegEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[11px]" />
 
                     <input
+                      required
                       type="email"
                       name="email"
                       value={formData.email}
@@ -212,6 +214,7 @@ const SignupPage = () => {
                     <FaPhone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[11px]" />
 
                     <input
+                      required
                       type="text"
                       name="phone"
                       value={formData.phone}
@@ -232,6 +235,7 @@ const SignupPage = () => {
                     <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[11px]" />
 
                     <input
+                      required
                       type={showPassword ? "text" : "password"}
                       name="password"
                       value={formData.password}
@@ -264,6 +268,7 @@ const SignupPage = () => {
                     <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[11px]" />
 
                     <input
+                      required
                       type={showConfirmPassword ? "text" : "password"}
                       name="password_confirmation"
                       value={formData.password_confirmation}

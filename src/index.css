@@ -1,1 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Poppins:wght@400&display=swap');
 @import "tailwindcss";
+
+@layer utilities {
+  .section-heading {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 53px;
+    letter-spacing: 0%;
+  }
+
+  .section-copy {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 165%;
+    letter-spacing: 0%;
+  }
+}

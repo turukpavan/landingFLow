@@ -15,7 +15,7 @@ import image1 from "../../assets/images/image1.png";
 import image2 from "../../assets/images/image2.png";
 import image3 from "../../assets/images/image3.png";
 
-import AuthCarousel from "../../components/authCarousel/AuthCarousel";
+import AuthCarousel from "../../components/carousels/AuthCarousel";
 import { useNavigate } from "react-router-dom";
 import ForgotPassword from "../../components/forgetPassword/ForgetPassward";
 import { authService } from "../../services/authService";
@@ -44,17 +44,27 @@ const LoginPage = () => {
   };
 
   // HANDLE SUBMIT
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-     const  res=  await authService.login(formData);
+  try {
+    const res = await authService.login(formData);
 
-      toast.success(res?.message || "Login successful");
-    } catch (error) {
-      toast.error(error?.message || "Login failed");
-    }
-  };
+    // Store tokens
+    localStorage.setItem("token", res.data.data.token);
+    localStorage.setItem("refreshToken", res.data.data.refresh_token);
+
+    // Store user data if needed
+    localStorage.setItem("user", JSON.stringify(res.data.data.user));
+
+    toast.success(res.message || "Login successful");
+
+    // Navigate to home page
+    navigate("/");
+  } catch (error) {
+    toast.error(error?.message || "Login failed");
+  }
+};
 
   return (
     <div className="min-h-screen bg-white overflow-hidden">
@@ -106,6 +116,7 @@ const LoginPage = () => {
                     <MdEmail className="text-gray-400 text-[14px]" />
 
                     <input
+                      required
                       type="text"
                       name="email"
                       value={formData.email}
@@ -126,6 +137,7 @@ const LoginPage = () => {
                     <FaLock className="text-gray-400 text-[12px]" />
 
                     <input
+                      required
                       type={showPassword ? "text" : "password"}
                       name="password"
                       value={formData.password}
