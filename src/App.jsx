@@ -25,6 +25,7 @@ const App = () => {
           <Route path="*" element={<Navigate to="/auth/login" />} />
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
+            {/* RootLayout */}
             <Route element={<RootLayout />}>
               <Route path="/" element={<HomeRoute />} />
             </Route>

@@ -7,7 +7,7 @@ import image4 from "../assets/images/image4.png";
 import TestimonialsCarousel from "../components/carousels/TestimonialsCarousel";
 import AgentCarousel from "../components/carousels/AgentCarousel";
 import { homeService } from "../services/homeService";
-import { BASE_URl } from "../api/api";
+import { BASE_URL } from "../api/api";
 function Home() {
   const [propertiesData, setPropertiesData] = useState([]);
   const [citiesData, setCitiesData] = useState([]);
@@ -166,7 +166,6 @@ function Home() {
     },
   );
 
-  // Dynamic Data for Section 1: Expert Real Estate Agents
 
   // Dynamic Corporate Partners Mock SVG Logos
   const [partners] = useState([
@@ -294,7 +293,7 @@ function Home() {
                 {/* Image Container Card */}
                 <div className="relative aspect-[16/11] w-full rounded-2xl overflow-hidden mb-5 bg-[#25145A]">
                   <img
-                    src={`${BASE_URl}${property.image}`}
+                    src={`${BASE_URL}${property.image}`}
                     alt={property.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
                   />
@@ -493,7 +492,7 @@ function Home() {
                 {/* Card Image Display Segment */}
                 <div className="relative aspect-[16/12] w-full rounded-xl overflow-hidden mb-4 bg-gray-100">
                   <img
-                    src={`${BASE_URl}${property.image}`}
+                    src={`${BASE_URL}${property.image}`}
                     alt={property.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />

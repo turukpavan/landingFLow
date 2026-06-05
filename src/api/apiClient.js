@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "https://elyiteprop.com/api",
+  baseURL: import.meta.env.VITE_API_BASE_URL || "https://elyiteprop.com/",
   timeout: 10000,
   withCredentials: false,
   headers: {
