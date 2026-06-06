@@ -1,9 +1,9 @@
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import LoginPage from "./pages/auth/LogIn";
-import SignupPage from "./pages/auth/SignUp";
+import LoginPage from "./pages/LogInPage";
+import SignupPage from "./pages/SignUpPage";
 import { ToastContainer } from "react-toastify";
-import HomeRoute from "./routes/Home.Route";
+import HomePage from "./pages/HomePage";
 import ProtectedRoute from "./routes/Protected.Route";
 import RootLayout from "./Layout/RootLayout";
 const App = () => {
@@ -20,16 +20,14 @@ const App = () => {
       />
       <BrowserRouter>
         <Routes>
-          <Route path="/auth/login" element={<LoginPage />} />
-          <Route path="/auth/signup" element={<SignupPage />} />
-          <Route path="*" element={<Navigate to="/auth/login" />} />
-          {/* Protected Routes */}
-          <Route element={<ProtectedRoute />}>
-            {/* RootLayout */}
-            <Route element={<RootLayout />}>
-              <Route path="/" element={<HomeRoute />} />
-            </Route>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route element={<RootLayout />}>
+            <Route path="/" element={<HomePage />} />
           </Route>
+          <Route path="*" element={<Navigate to="/login" />} />
+          {/* Protected Routes */}
+          <Route element={<ProtectedRoute />}>{/* RootLayout */}</Route>
         </Routes>
       </BrowserRouter>
     </div>

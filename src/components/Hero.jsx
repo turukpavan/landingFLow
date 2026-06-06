@@ -1,7 +1,7 @@
 import { useState } from "react";
-import HomeImage from "../../assets/images/home.png";
-import Video1 from "../../assets/images/video.mp4";
-import Video2 from "../../assets/images/video2.mp4";
+import HomeImage from "../assets/images/home.png";
+import Video1 from "../assets/images/video.mp4";
+import Video2 from "../assets/images/video2.mp4";
 
 const Hero = () => {
   const videoSources = [Video1, Video2];

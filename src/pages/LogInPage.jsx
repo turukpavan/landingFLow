@@ -2,7 +2,6 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 import {
-  FaArrowLeft,
   FaApple,
   FaEye,
   FaEyeSlash,
@@ -11,14 +10,14 @@ import {
 
 import { MdEmail } from "react-icons/md";
 
-import image1 from "../../assets/images/image1.png";
-import image2 from "../../assets/images/image2.png";
-import image3 from "../../assets/images/image3.png";
+import image1 from "../assets/images/image1.png";
+import image2 from "../assets/images/image2.png";
+import image3 from "../assets/images/image3.png";
 
-import AuthCarousel from "../../components/carousels/AuthCarousel";
+import AuthCarousel from "../components/carousels/AuthCarousel";
 import { useNavigate } from "react-router-dom";
-import ForgotPassword from "../../components/forgetPassword/ForgetPassward";
-import { authService } from "../../services/authService";
+import ForgotPassword from "../components/ForgetPassward";
+import { authService } from "../services/authService";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -80,13 +79,6 @@ const LoginPage = () => {
         ) : (
           <div className="flex items-center justify-center px-5 sm:px-8 lg:px-12 h-screen overflow-y-auto">
             <div className="w-full max-w-[380px] py-6">
-              {/* BACK BUTTON */}
-              <button className="flex items-center gap-2 text-[11px] text-gray-400 mb-4">
-                <span className="bg-[#F3EEFF] p-1.5 rounded-md">
-                  <FaArrowLeft className="text-[#885EFF] text-[9px]" />
-                </span>
-                Back to home
-              </button>
 
               {/* MOBILE TITLE */}
               <div className="block lg:hidden mb-6">
@@ -216,7 +208,7 @@ const LoginPage = () => {
               <p className="text-center text-[11px] text-gray-500 pt-1">
                 Don’t have an account?{" "}
                 <button
-                  onClick={() => navigate("/auth/signup")}
+                  onClick={() => navigate("/signup")}
                   className="text-[#885EFF] font-medium cursor-pointer hover:underline"
                 >
                   Sign Up

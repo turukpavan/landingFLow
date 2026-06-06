@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { homeService } from "../../services/homeService";
-import { BASE_URl } from "../../api/api";
+import { BASE_URL } from "../../api/api";
 
 const AgentCarousel = () => {
   const [agents, setAgents] = useState([]);
@@ -230,7 +230,7 @@ const AgentCarousel = () => {
                         {/* Profile Metadata Segment */}
                         <div className="flex items-center space-x-4 mb-4">
                           <img
-                            src={`${BASE_URl}/storage/${agent.image}`}
+                            src={`${BASE_URL}/storage/${agent.image}`}
                             alt={agent.name}
                             className="w-14 h-14 rounded-full object-cover border-2 border-purple-100"
                           />

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { FaChevronLeft } from "react-icons/fa6";
 import { toast } from "react-toastify";
-import ResetPassword from "../resetPassword/ResetPassword";
-import { authService } from "../../services/authService";
+import ResetPassword from "./ResetPassword";
+import { authService } from "../services/authService";
 
 const VerifyWithOtp = ({ email, showotpScreen, type }) => {
   const [showResetPassScreen, setShowResetPassScreen] = useState(false);

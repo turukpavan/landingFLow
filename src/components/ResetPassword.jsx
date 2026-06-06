@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { authService } from "../../services/authService";
+import { authService } from "../services/authService";
+import { useNavigate } from "react-router-dom";
 
 export default function ResetPassword({ email }) {
+  const navigate = useNavigate()
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -27,6 +29,8 @@ export default function ResetPassword({ email }) {
         res?.message ||
           "Password reset successful. You can now log in with your new password.",
       );
+      navigate('/login')
+      
     } catch (error) {
       toast.error(error?.message || "Failed to reset password.");
     }

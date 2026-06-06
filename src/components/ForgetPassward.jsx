@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { toast } from "react-toastify";
-import VerifyWithOtp from "../verifyWithOtp/VerifyWithOtp";
-import { authService } from "../../services/authService";
+import VerifyWithOtp from "./VerifyWithOtp";
+import { authService } from "../services/authService";
 
 export default function ForgotPassword({ setForgetPassword }) {
   const [loading, setLoading] = useState(false);
@@ -51,7 +51,7 @@ export default function ForgotPassword({ setForgetPassword }) {
             <span className="bg-[#F3EEFF] p-1.5 rounded-md">
               <FaArrowLeft className="text-[#885EFF] text-[9px]" />
             </span>
-            Back to home
+            Back 
           </button>
           {/* Header Section */}
           <div className="mb-4">

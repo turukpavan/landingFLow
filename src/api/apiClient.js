@@ -13,6 +13,12 @@ const apiClient = axios.create({
 // REQUEST INTERCEPTOR
 apiClient.interceptors.request.use(
   (config) => {
+    // 1. Check if the request explicitly asks to skip authorization
+    if (config.skipAuth) {
+      return config;
+    }
+    console.log('secureApi hit');
+    
     const token = localStorage.getItem("token");
 
     if (token) {
@@ -36,7 +42,7 @@ apiClient.interceptors.response.use(
         localStorage.removeItem("refreshToken");
         localStorage.removeItem("user");
 
-        window.location.href = "/auth/login";
+        window.location.href = "/login";
       }
 
       return Promise.reject(data);

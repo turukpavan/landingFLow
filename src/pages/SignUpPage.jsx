@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-import image1 from "../../assets/images/image1.png";
-import image2 from "../../assets/images/image2.png";
-import image3 from "../../assets/images/image3.png";
+import image1 from "../assets/images/image1.png";
+import image2 from "../assets/images/image2.png";
+import image3 from "../assets/images/image3.png";
 
 import { toast } from "react-toastify";
 
@@ -10,7 +10,6 @@ import { toast } from "react-toastify";
 import {
   FaApple,
   FaBuilding,
-  FaChevronLeft,
   FaHouse,
   FaLock,
   FaPhone,
@@ -21,10 +20,10 @@ import {
   FaUser,
 } from "react-icons/fa6";
 
-import AuthCarousel from "../../components/carousels/AuthCarousel";
+import AuthCarousel from "../components/carousels/AuthCarousel";
 import { useNavigate } from "react-router-dom";
-import VerifyWithOtp from "../../components/verifyWithOtp/VerifyWithOtp";
-import { authService } from "../../services/authService";
+import VerifyWithOtp from "../components/VerifyWithOtp";
+import { authService } from "../services/authService";
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -118,13 +117,7 @@ const SignupPage = () => {
           ) : (
             // SIGNUP FORM
             <div className="w-full max-w-[340px] lg:max-w-[420px] flex flex-col gap-2">
-              {/* BACK BUTTON */}
-              <button className="flex items-center gap-2 text-[11px] text-gray-400 mb-1">
-                <span className="bg-[#F3EEFF] p-1 rounded-md">
-                  <FaChevronLeft className="text-[#885EFF] text-[7px]" />
-                </span>
-                Back to home
-              </button>
+           
 
               {/* MOBILE TITLE */}
               <div className="lg:hidden mb-1">
@@ -336,7 +329,7 @@ const SignupPage = () => {
                 <p className="text-center text-[11px] text-gray-500 mt-3">
                   Already have an account?{" "}
                   <button
-                    onClick={() => navigate("/auth/login")}
+                    onClick={() => navigate("/login")}
                     className="text-[#885EFF] font-medium cursor-pointer hover:underline"
                   >
                     Login

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -64,8 +65,8 @@ const Header = () => {
           </a>
 
           {/* Log In Button - Now permanently visible */}
-          <a
-            href="#"
+          <Link
+            to={'/auth/login'}
             className="group flex items-center space-x-1.5 sm:space-x-2 bg-[#EBE9FE] hover:bg-[#DDD6FE] text-[#6D28D9] pl-3 sm:pl-4 pr-1 py-2 rounded-full text-xs font-semibold transition-all duration-200"
           >
             <span>Log in</span>
@@ -74,7 +75,7 @@ const Header = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
               </svg>
             </div>
-          </a>
+          </Link>
 
           {/* Sign Up Button - Now permanently visible */}
           <a
