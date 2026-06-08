@@ -1,4 +1,8 @@
-// src/components/icons/HeaderIcons.jsx
+import { FaArrowLeft } from "react-icons/fa6";
+
+// ==========================================
+// Header Icons
+// ==========================================
 
 export const PhoneIcon = ({ className = "w-3.5 h-3.5 text-gray-500" }) => (
   <svg
@@ -9,7 +13,7 @@ export const PhoneIcon = ({ className = "w-3.5 h-3.5 text-gray-500" }) => (
     stroke="currentColor"
     className={className}
   >
-<path
+    <path
       strokeLinecap="round"
       strokeLinejoin="round"
       d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
@@ -55,7 +59,9 @@ export const HamburgerMenuIcon = ({ isOpen, className = "w-5 h-5" }) => (
   </svg>
 );
 
-// src/components/icons/HeroIcons.jsx
+// ==========================================
+// Hero Icons
+// ==========================================
 
 export const TrendingUpIcon = ({ className = "w-3.5 h-3.5 text-blue-500" }) => (
   <svg
@@ -209,12 +215,32 @@ export const CalendarIcon = ({ className = "w-4 h-4 sm:w-5 sm:h-5" }) => (
   </svg>
 );
 
-// src/components/icons/PropertyIcons.jsx
+// ==========================================
+// Property & Upcoming Vector Icons
+// ==========================================
 
 export const VectorArrowIcon = ({ className = "text-purple-300 opacity-80" }) => (
   <svg
     width="40"
     height="25"
+    viewBox="0 0 54 33"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    <path
+      d="M1 2C15.5 2 39.5 7.5 48.5 24M48.5 24M41 24H49.5V15"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+export const VectorCurveIcon = ({ className = "text-gray-400" }) => (
+  <svg
+    width="35"
+    height="20"
     viewBox="0 0 54 33"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -286,34 +312,9 @@ export const LocationIcon = ({ className = "w-3.5 h-3.5 flex-shrink-0" }) => (
   </svg>
 );
 
-
-// src/components/icons/UpcomingIcons.jsx
-
-export const VectorCurveIcon = ({ className = "text-gray-400" }) => (
-  <svg
-    width="35"
-    height="20"
-    viewBox="0 0 54 33"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}
-  >
-    <path
-      d="M1 2C15.5 2 39.5 7.5 48.5 24M48.5 24M41 24H49.5V15"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
-
-
-// src/components/icons/StatsIcons.jsx
-
-
-
-
+// ==========================================
+// Stats Icons
+// ==========================================
 
 export const BadgeCheckIcon = ({ className = "w-5 h-5" }) => (
   <svg
@@ -365,22 +366,10 @@ export const PaperPlaneIcon = ({ className = "w-5 h-5" }) => (
     />
   </svg>
 );
-// src/components/icons/SolutionIcons.jsx
 
-
-
-// src/components/icons/CarouselIcons.jsx
-
-
-
-
-
-
-// src/components/icons/ExploreIcons.jsx
-
-
-
-
+// ==========================================
+// Explore Icons
+// ==========================================
 
 export const ArrowRightSmallIcon = ({ className = "w-3 h-3" }) => (
   <svg
@@ -399,15 +388,9 @@ export const ArrowRightSmallIcon = ({ className = "w-3 h-3" }) => (
   </svg>
 );
 
-// src/components/icons/AgentIcons.jsx
-
-
-
-// src/components/icons/PartnerIcons.jsx
-
-// src/components/icons/ContactIcons.jsx
-
-
+// ==========================================
+// Contact Icons
+// ==========================================
 
 export const DropdownChevronIcon = ({ className = "fill-current h-4 w-4" }) => (
   <svg
@@ -419,7 +402,9 @@ export const DropdownChevronIcon = ({ className = "fill-current h-4 w-4" }) => (
   </svg>
 );
 
-// src/components/icons/FooterIcons.jsx
+// ==========================================
+// Footer Icons
+// ==========================================
 
 export const LocationPinIcon = ({ className = "w-5 h-5 shrink-0 text-purple-300" }) => (
   <svg
@@ -448,9 +433,6 @@ export const MailIcon = ({ className = "w-5 h-5 shrink-0 text-purple-300" }) => 
   </svg>
 );
 
-
-
-
 export const FacebookIcon = ({ className = "w-5 h-5 fill-current" }) => (
   <svg className={className} viewBox="0 0 24 24">
     <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
@@ -475,8 +457,9 @@ export const TwitterIcon = ({ className = "w-5 h-5 fill-current" }) => (
   </svg>
 );
 
-// src/components/icons/AuthIcons.jsx
-import { FaArrowLeft } from "react-icons/fa6";
+// ==========================================
+// Auth Icons
+// ==========================================
 
 export const BackArrowIcon = ({ className = "text-[#885EFF] text-[9px]" }) => (
   <FaArrowLeft className={className} />
@@ -498,8 +481,6 @@ export const OutlinedMailIcon = ({ className = "w-4 h-4" }) => (
     />
   </svg>
 );
-
-// Append to src/components/icons/AuthIcons.jsx
 
 export const LockIcon = ({ className = "w-4 h-4" }) => (
   <svg
@@ -556,5 +537,3 @@ export const EyeClosedIcon = ({ className = "w-4 h-4" }) => (
     />
   </svg>
 );
-
-// Append to src/components/icons/AuthIcons.jsx

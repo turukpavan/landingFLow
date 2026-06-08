@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import image1 from "../assets/images/image1.png";
 import image2 from "../assets/images/image2.png";
 import image3 from "../assets/images/image3.png";
-
-import { toast } from "react-toastify";
-
 
 import {
   FaApple,
@@ -21,11 +20,11 @@ import {
 } from "react-icons/fa6";
 
 import AuthCarousel from "../components/carousels/AuthCarousel";
-import { useNavigate } from "react-router-dom";
 import VerifyWithOtp from "../components/VerifyWithOtp";
 import { authService } from "../services/authService";
-
 const SignupPage = () => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
   const navigate = useNavigate();
   const carouselImages = [image1, image2, image3];
 
@@ -37,18 +36,32 @@ const SignupPage = () => {
     phone: "",
     password: "",
     password_confirmation: "",
+    country_code: "+1", // Set a default starting country code
   });
 
   const [showPassword, setShowPassword] = useState(false);
-
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   const [showOtpInput, setShowOtpInput] = useState(false);
+
+  // Sample Country Codes List
+  const countryCodes = [
+    { code: "+1", label: "US (+1)" },
+    { code: "+44", label: "UK (+44)" },
+    { code: "+91", label: "IN (+91)" },
+    { code: "+971", label: "AE (+971)" },
+    { code: "+61", label: "AU (+61)" },
+  ];
+
+  // CLEAR OLD TOKENS ON MOUNT
+  useEffect(() => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user");
+  }, []);
 
   // HANDLE CHANGE
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -65,11 +78,8 @@ const SignupPage = () => {
     }
 
     try {
-      const res =  await authService.register( activeRole,formData);
-     
-
+      const res = await authService.register(activeRole, formData);
       toast.success(res.message || "OTP sent successfully");
-
       setShowOtpInput(true);
     } catch (error) {
       toast.error(error?.message || "Signup failed");
@@ -83,13 +93,11 @@ const SignupPage = () => {
       label: "buyer",
       icon: <FaHouse className="text-[8px]" />,
     },
-
     {
       key: "agent",
       label: "agent",
       icon: <FaUser className="text-[8px]" />,
     },
-
     {
       key: "developer",
       label: "developer",
@@ -117,8 +125,6 @@ const SignupPage = () => {
           ) : (
             // SIGNUP FORM
             <div className="w-full max-w-[340px] lg:max-w-[420px] flex flex-col gap-2">
-           
-
               {/* MOBILE TITLE */}
               <div className="lg:hidden mb-1">
                 <h1 className="text-[28px] leading-[34px] font-bold text-gray-800">
@@ -147,7 +153,6 @@ const SignupPage = () => {
                     }`}
                   >
                     {role.icon}
-
                     {role.label}
                   </button>
                 ))}
@@ -160,12 +165,10 @@ const SignupPage = () => {
                   <label className="block text-[11px] font-medium text-gray-700 mb-1">
                     Full Name
                   </label>
-
                   <div className="relative">
                     <FaRegUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[11px]" />
-
                     <input
-                    required
+                      required
                       type="text"
                       name="full_name"
                       value={formData.full_name}
@@ -181,10 +184,8 @@ const SignupPage = () => {
                   <label className="block text-[11px] font-medium text-gray-700 mb-1">
                     Email
                   </label>
-
                   <div className="relative">
                     <FaRegEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[11px]" />
-
                     <input
                       required
                       type="email"
@@ -197,24 +198,66 @@ const SignupPage = () => {
                   </div>
                 </div>
 
-                {/* PHONE */}
+                {/* PHONE NUMBER + COUNTRY CODE DROPDOWN */}
+                {/* PHONE NUMBER + COUNTRY CODE DROPDOWN */}
                 <div>
                   <label className="block text-[11px] font-medium text-gray-700 mb-1">
                     Phone number
                   </label>
+                  <div className="flex gap-2 w-full">
+                    {/* CUSTOM DROPDOWN CONTAINER */}
+                    <div className="relative w-[90px] lg:w-[100px] flex-shrink-0">
+                      {/* Trigger Button */}
+                      <button
+                        type="button"
+                        onClick={() => setDropdownOpen(!dropdownOpen)} // Requires standard boolean state: const [dropdownOpen, setDropdownOpen] = useState(false);
+                        className="w-full h-10 lg:h-9 border border-gray-300 rounded-xl px-2.5 text-[11px] font-medium bg-white text-gray-700 flex items-center justify-between outline-none focus:border-[#885EFF] transition"
+                      >
+                        <span>{formData.country_code}</span>
+                        <span className="text-[8px] text-gray-400">▼</span>
+                      </button>
 
-                  <div className="relative">
-                    <FaPhone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[11px]" />
+                      {/* Popover Options List Box */}
+                      {dropdownOpen && (
+                        <ul className="absolute left-0 z-50 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg max-h-40 overflow-y-auto p-1 text-[11px]">
+                          {countryCodes.map((item) => (
+                            <li key={item.code}>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setFormData((prev) => ({
+                                    ...prev,
+                                    country_code: item.code,
+                                  }));
+                                  setDropdownOpen(false);
+                                }}
+                                className={`w-full text-left px-2 py-1.5 rounded-lg transition-colors ${
+                                  formData.country_code === item.code
+                                    ? "bg-purple-50 text-[#885EFF] font-semibold"
+                                    : "text-gray-600 hover:bg-gray-50"
+                                }`}
+                              >
+                                {item.label}
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
 
-                    <input
-                      required
-                      type="text"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      placeholder="Enter Phone number"
-                      className="w-full h-10 lg:h-9 border border-gray-300 rounded-xl pl-9 pr-3 text-[12px] outline-none focus:border-[#885EFF]"
-                    />
+                    {/* Numeric Input Block */}
+                    <div className="relative flex-1">
+                      <FaPhone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[11px]" />
+                      <input
+                        required
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="Enter Phone number"
+                        className="w-full h-10 lg:h-9 border border-gray-300 rounded-xl pl-9 pr-3 text-[12px] outline-none focus:border-[#885EFF]"
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -223,10 +266,8 @@ const SignupPage = () => {
                   <label className="block text-[11px] font-medium text-gray-700 mb-1">
                     Password
                   </label>
-
                   <div className="relative">
                     <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[11px]" />
-
                     <input
                       required
                       type={showPassword ? "text" : "password"}
@@ -236,7 +277,6 @@ const SignupPage = () => {
                       placeholder="Enter Password"
                       className="w-full h-10 lg:h-9 border border-gray-300 rounded-xl pl-9 pr-9 text-[12px] outline-none focus:border-[#885EFF]"
                     />
-
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
@@ -256,10 +296,8 @@ const SignupPage = () => {
                   <label className="block text-[11px] font-medium text-gray-700 mb-1">
                     Confirm Password
                   </label>
-
                   <div className="relative">
                     <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[11px]" />
-
                     <input
                       required
                       type={showConfirmPassword ? "text" : "password"}
@@ -269,7 +307,6 @@ const SignupPage = () => {
                       placeholder="Enter Confirm Password"
                       className="w-full h-10 lg:h-9 border border-gray-300 rounded-xl pl-9 pr-9 text-[12px] outline-none focus:border-[#885EFF]"
                     />
-
                     <button
                       type="button"
                       onClick={() =>
@@ -300,9 +337,7 @@ const SignupPage = () => {
                 {/* DIVIDER */}
                 <div className="flex items-center gap-2 mb-2">
                   <div className="flex-1 h-px bg-gray-200"></div>
-
                   <span className="text-[10px] text-gray-400">or</span>
-
                   <div className="flex-1 h-px bg-gray-200"></div>
                 </div>
 

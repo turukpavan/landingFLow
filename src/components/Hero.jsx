@@ -182,7 +182,7 @@ const Hero = () => {
         </div>
 
         {/* FLOATING CARD 2: 2k+ Developers */}
-        <div className="absolute right-[-10px] sm:right-[-50px] top-4 sm:top-10 bg-white/95 p-2 sm:p-3 rounded-xl sm:rounded-2xl shadow-xl border border-gray-100 flex items-center space-x-2 sm:space-x-3 w-28 sm:w-40 text-left z-20">
+        <div className="absolute right-[10px] sm:right-[-50px] top-4 sm:top-10 bg-white/95 p-2 sm:p-3 rounded-xl sm:rounded-2xl shadow-xl border border-gray-100 flex items-center space-x-2 sm:space-x-3 w-28 sm:w-40 text-left z-20">
           <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-xl bg-sky-50 flex items-center justify-center text-sky-500 flex-shrink-0">
             <OfficeBuildingIcon />
           </div>
@@ -193,7 +193,7 @@ const Hero = () => {
         </div>
 
         {/* FLOATING CARD 3: 5000+ Sold Properties */}
-        <div className="absolute right-[-15px] sm:right-[-60px] bottom-14 sm:bottom-20 bg-white/95 p-2 sm:p-3 rounded-xl sm:rounded-2xl shadow-xl border border-gray-100 flex items-center space-x-2 sm:space-x-3 w-32 sm:w-44 text-left z-20">
+        <div className="absolute right-[15px] sm:right-[-60px] bottom-14 sm:bottom-20 bg-white/95 p-2 sm:p-3 rounded-xl sm:rounded-2xl shadow-xl border border-gray-100 flex items-center space-x-2 sm:space-x-3 w-32 sm:w-44 text-left z-20">
           <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-500 flex-shrink-0">
             <HomeIcon />
           </div>
@@ -204,7 +204,7 @@ const Hero = () => {
         </div>
 
         {/* Floating Calendar Overlay Sticky Trigger Option */}
-        <button className="absolute right-[-20px] sm:right-[-80px] bottom-36 bg-[#7C3AED] hover:bg-[#6D28D9] text-white p-2.5 rounded-xl shadow-lg shadow-purple-200 transition-all z-20">
+        <button className="absolute right-[10px] sm:right-[-80px] bottom-36 bg-[#7C3AED] hover:bg-[#6D28D9] text-white p-2.5 rounded-xl shadow-lg shadow-purple-200 transition-all z-20">
           <CalendarIcon />
         </button>
 

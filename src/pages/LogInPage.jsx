@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { FaApple, FaEye, FaEyeSlash, FaLock } from "react-icons/fa";
@@ -25,6 +25,12 @@ const LoginPage = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [forgetPassword, setForgetPassword] = useState(false);
+  // CLEAR OLD TOKENS ON MOUNT
+  useEffect(() => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user");
+  }, []);
 
   // HANDLE CHANGE
   const handleChange = (e) => {
