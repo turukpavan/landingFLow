@@ -22,12 +22,12 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
-          <Route element={<RootLayout />}>
-            <Route path="/" element={<HomePage />} />
-          </Route>
           <Route path="*" element={<Navigate to="/login" />} />
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>{/* RootLayout */}</Route>
+          <Route element={<RootLayout />}>
+            <Route path="/" element={<HomePage />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>

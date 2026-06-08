@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { FaArrowLeft } from "react-icons/fa6";
 import { toast } from "react-toastify";
 import VerifyWithOtp from "./VerifyWithOtp";
 import { authService } from "../services/authService";
-
+import { BackArrowIcon, OutlinedMailIcon } from "../components/ui/Icons";
 export default function ForgotPassword({ setForgetPassword }) {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
@@ -48,8 +47,8 @@ export default function ForgotPassword({ setForgetPassword }) {
             onClick={() => setForgetPassword(false)}
             className="flex items-center gap-2 text-[11px] text-gray-400 mb-4"
           >
-            <span className="bg-[#F3EEFF] p-1.5 rounded-md">
-              <FaArrowLeft className="text-[#885EFF] text-[9px]" />
+         <span className="bg-[#F3EEFF] p-1.5 rounded-md flex items-center justify-center">
+              <BackArrowIcon />
             </span>
             Back 
           </button>
@@ -76,23 +75,10 @@ export default function ForgotPassword({ setForgetPassword }) {
               <div className="relative flex items-center">
                 {/* Outlined Mail Icon */}
                 <span className="absolute left-4 text-gray-400">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-4 h-4"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
-                    />
-                  </svg>
+                  <OutlinedMailIcon/>
                 </span>
                 <input
-                  type="text"
+                  type="email"
                   id="email"
                   placeholder="Enter Email"
                   value={email}

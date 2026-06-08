@@ -10,10 +10,11 @@ import Solutions from "../components/Solutions";
 import ExploreProperties from "../components/ExploreProperties";
 import Partners from "../components/Partners";
 import FreeConsultation from "../components/FreeConsultation";
+import GetInTouch from "../components/GetInTouch";
 function Home() {
   const [propertiesData, setPropertiesData] = useState([]);
 
-  //   fetch properties data from backend API and update state (useEffect with homeService.getPropertiesData)
+    // fetch properties data from backend API and update state (useEffect with homeService.getPropertiesData)
   const fetchPropertiesData = useCallback(async () => {
     try {
       const res = await homeService.getPropertiesData();
@@ -54,8 +55,7 @@ function Home() {
       {/* free consultation section */}
       <FreeConsultation />
       {/* get in touch section */}
-
-      {/* footer */}
+    <GetInTouch/>
     </div>
   );
 }

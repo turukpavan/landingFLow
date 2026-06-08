@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { homeService } from "../../services/homeService";
 import { BASE_URL } from "../../api/api";
+import {
+  VectorCurveIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "../../components/ui/Icons";
 
 const AgentCarousel = () => {
   const [agents, setAgents] = useState([]);
@@ -11,9 +16,8 @@ const AgentCarousel = () => {
       setLoadingAgents(true);
       const res = await homeService.getAgentsData();
       setAgents(res.data.agents || []);
-      console.log(res.data.agents);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setLoadingAgents(false);
     }
@@ -91,6 +95,7 @@ const AgentCarousel = () => {
   return (
     <section className="w-full bg-gradient-to-br from-[#4C359E] via-[#3B2687] to-[#25145A] text-white py-16 px-4 relative overflow-hidden">
       <div className="max-w-[1300px] mx-auto">
+        
         {/* Section Heading Row */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-14">
           <div className="max-w-md relative">
@@ -98,74 +103,32 @@ const AgentCarousel = () => {
               Meet Our Expert Agent
             </h2>
             <div className="hidden lg:block absolute bottom-[-10px] right-[-32px]">
-              <svg
-                width="35"
-                height="20"
-                viewBox="0 0 54 33"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="text-purple-300 opacity-70"
-              >
-                <path
-                  d="M1 2C15.5 2 39.5 7.5 48.5 24M48.5 24M41 24H49.5V15"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
+              <VectorCurveIcon />
             </div>
           </div>
           <p className="section-copy text-purple-200/80 max-w-[29rem]">
-            Hear from homebuyers, renters, and investors who trusted us with
-            their journey.
+            Hear from homebuyers, renters, and investors who trusted us with their journey.
           </p>
         </div>
 
         {/* Carousel Slider Panel Display Container */}
         <div className="relative px-0 md:px-14 mb-10">
-          {/* Navigation Controls (Only render if not loading and has data) */}
+          
+          {/* Navigation Controls */}
           {!loadingAgents && totalAgents > 0 && (
             <>
-              {/* Left Circular Navigation Handle Arrow */}
               <button
                 onClick={handleAgentPrev}
                 className="absolute left-0 md:left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-white/20 bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-all z-20 shadow-md backdrop-blur-sm"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2.5"
-                  stroke="currentColor"
-                  className="w-4 h-4"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.75 19.5 8.25 12l7.5-7.5"
-                  />
-                </svg>
+                <ChevronLeftIcon />
               </button>
 
-              {/* Right Circular Navigation Handle Arrow */}
               <button
                 onClick={handleAgentNext}
                 className="absolute right-0 md:right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-white/20 bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-all z-20 shadow-md backdrop-blur-sm"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2.5"
-                  stroke="currentColor"
-                  className="w-4 h-4"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="m8.25 4.5 7.5 7.5-7.5 7.5"
-                  />
-                </svg>
+                <ChevronRightIcon />
               </button>
             </>
           )}

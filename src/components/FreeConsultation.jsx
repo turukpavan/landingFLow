@@ -1,11 +1,13 @@
 import image4 from "../assets/images/image4.png";
+import { ArrowRightIcon } from "../components/ui/Icons";
 
 const FreeConsultation = () => {
   return (
-    <section className="w-full py-10 md:py-10 px-4 md:px-10 bg-gradient-to-br from-[#5758a1] via-[#413274] to-[#5c3d86] ">
+    <section className="w-full py-10 md:py-10 px-4 md:px-10 bg-gradient-to-br from-[#5758a1] via-[#413274] to-[#5c3d86]">
       <div className="max-w-[1240px] mx-auto bg-[#8485c53e] rounded-[32px] shadow-2xl">
         {/* Main Card Container with Outer Purple Border Gradient Style Background */}
-        <div className="w-full   relative flex flex-col md:flex-row items-stretch min-h-[420px] md:min-h-[480px] lg:min-h-[520px] ">
+        <div className="w-full relative flex flex-col md:flex-row items-stretch min-h-[420px] md:min-h-[480px] lg:min-h-[520px]">
+          
           {/* Asymmetric Angled Background Shape Layer (Left Side Accent) */}
           <div
             className="absolute inset-0 z-0 opacity-90 pointer-events-none"
@@ -20,7 +22,7 @@ const FreeConsultation = () => {
               Ready to Move Into Your Dream Home?
             </h2>
 
-            <p className="section-copy text-gray-500 max-w-[39rem]">
+            <p className="section-copy text-white/70 max-w-[39rem] mb-6"> {/* Fixed text-gray-500 to text-white/70 for better contrast on dark backgrounds */}
               Get expert guidance and explore premium properties tailored for
               you.
             </p>
@@ -32,20 +34,7 @@ const FreeConsultation = () => {
             >
               <span>Schedule a Free Consultation</span>
               <div className="w-8 h-8 rounded-full bg-[#906BFF] text-white flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1 shrink-0">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2.5"
-                  stroke="currentColor"
-                  className="w-4 h-4"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-                  />
-                </svg>
+                <ArrowRightIcon />
               </div>
             </button>
           </div>

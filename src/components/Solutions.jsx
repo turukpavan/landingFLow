@@ -1,5 +1,6 @@
 import { useState } from "react";
 import frame224 from "../assets/images/frame224.png";
+import { VectorCurveIcon, ArrowRightIcon } from "../components/ui/Icons";
 
 const Solutions = () => {
   // Dynamic Data for Section 2: Real Estate Solutions
@@ -37,12 +38,14 @@ const Solutions = () => {
         "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=400&q=80",
     },
   ]);
+
   return (
     <section
-      className="w-full  py-16 px-4 bg-repeat border-t border-gray-100"
+      className="w-full py-16 px-4 bg-repeat border-t border-gray-100"
       style={{ backgroundImage: `url(${frame224})` }}
     >
       <div className="max-w-[1300px] mx-auto">
+        
         {/* Header Row */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12 relative">
           <div className="max-w-md relative">
@@ -51,21 +54,7 @@ const Solutions = () => {
             </h2>
             {/* Hand-drawn loop arrow svg */}
             <div className="hidden lg:block absolute bottom-[-10px] right-[-30px]">
-              <svg
-                width="35"
-                height="20"
-                viewBox="0 0 54 33"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="text-gray-400 opacity-60"
-              >
-                <path
-                  d="M1 2C15.5 2 39.5 7.5 48.5 24M48.5 24M41 24H49.5V15"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
+              <VectorCurveIcon />
             </div>
           </div>
           <p className="section-copy text-gray-500 max-w-[29rem]">
@@ -104,20 +93,7 @@ const Solutions = () => {
                 <button className="w-full mt-auto inline-flex items-center justify-between bg-[#EBE9FE] hover:bg-[#DDD6FE] text-[#7C3AED] transition-all duration-200 rounded-full pl-4 pr-1 py-1 text-xs font-bold shadow-sm">
                   <span>{sol.btnText}</span>
                   <div className="w-6 h-6 rounded-full bg-[#7C3AED] text-white flex items-center justify-center flex-shrink-0">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="3"
-                      stroke="currentColor"
-                      className="w-3 h-3"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-                      />
-                    </svg>
+                    <ArrowRightIcon />
                   </div>
                 </button>
               </div>

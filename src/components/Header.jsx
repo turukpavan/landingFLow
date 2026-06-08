@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { PhoneIcon, ButtonArrowIcon, HamburgerMenuIcon } from '../components/ui/Icons';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,64 +47,50 @@ const Header = () => {
 
         {/* Right Actions Section - ALWAYS VISIBLE */}
         <div className="flex items-center space-x-2 sm:space-x-3">
-          {/* Phone Link Pill - Hidden on extra small mobile to save space, visible from sm up */}
+          {/* Phone Link Pill */}
           <a
             href="tel:+911234567895"
             className="hidden sm:flex items-center space-x-1.5 bg-[#f6f6f6] hover:bg-gray-100 border border-gray-100/80 text-gray-600 px-3.5 py-3 rounded-full text-xs font-medium transition-all"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="2"
-              stroke="currentColor"
-              className="w-3.5 h-3.5 text-gray-500"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.6221A16.7 16.7 0 0019.5 21.75a4.5 4.5 0 004.5-4.5v-1.125c0-.414-.336-.75-.75-.75h-3.75a.75 0 00-.75.75v1.125c0 .414-.336.75-.75.75H18a10.5 10.5 0 01-10.5-10.5v-.375c0-.414.336-.75.75-.75h1.125a.75 0 00.75-.75V3.75a.75 0 00-.75-.75H5.625a4.5 4.5 0 00-4.5 4.5v1.122z" />
-            </svg>
+            <PhoneIcon />
             <span className="tracking-wide">+91 123-456-7895</span>
           </a>
 
-          {/* Log In Button - Now permanently visible */}
+          {/* Log In Button */}
           <Link
             to={'/auth/login'}
             className="group flex items-center space-x-1.5 sm:space-x-2 bg-[#EBE9FE] hover:bg-[#DDD6FE] text-[#6D28D9] pl-3 sm:pl-4 pr-1 py-2 rounded-full text-xs font-semibold transition-all duration-200"
           >
             <span>Log in</span>
             <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#7C3AED] group-hover:bg-[#6D28D9] flex items-center justify-center text-white transition-colors duration-200">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="w-2.5 h-2.5 sm:w-3 sm:h-3">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-              </svg>
+              <ButtonArrowIcon />
             </div>
           </Link>
 
-          {/* Sign Up Button - Now permanently visible */}
+          {/* Sign Up Button */}
           <a
             href="#"
             className="group flex items-center space-x-1.5 sm:space-x-2 bg-[#7C3AED] hover:bg-[#6D28D9] text-white pl-3 sm:pl-4 pr-1 py-2 rounded-full text-xs font-semibold transition-all duration-200"
           >
             <span>Sign up</span>
             <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white text-[#7C3AED] flex items-center justify-center transition-transform duration-200">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="w-2.5 h-2.5 sm:w-3 sm:h-3">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-              </svg>
+              <ButtonArrowIcon />
             </div>
           </a>
 
-          {/* Hamburger Mobile Menu Toggle (Only visible on lg down) */}
+          {/* Hamburger Mobile Menu Toggle */}
           <button 
             onClick={() => setIsOpen(!isOpen)}
             className="lg:hidden p-1.5 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors ml-1"
           >
-            <svg xmlns="http://www.w3.org/2000/xl" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-5 h-5">
-              <path strokeLinecap="round" strokeLinejoin="round" d={isOpen ? "M6 18 18 6M6 6l12 12" : "M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"} />
-            </svg>
+            {/* Added dynamic class check to handle dynamic cross/bars mapping setup */}
+            <HamburgerMenuIcon isOpen={isOpen} />
           </button>
         </div>
 
       </div>
 
-      {/* Mobile Menu Dropdown (Only handles links now) */}
+      {/* Mobile Menu Dropdown */}
       {isOpen && (
         <div className="lg:hidden bg-white border-b border-gray-100 px-4 py-3 shadow-lg">
           <ul className="space-y-1">
