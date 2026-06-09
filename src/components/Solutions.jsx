@@ -1,6 +1,6 @@
 import { useState } from "react";
 import frame224 from "../assets/images/frame224.png";
-import { VectorCurveIcon, ArrowRightIcon } from "../components/ui/Icons";
+import { VectorCurveIcon, ArrowRightIcon } from "./Icons";
 
 const Solutions = () => {
   // Dynamic Data for Section 2: Real Estate Solutions

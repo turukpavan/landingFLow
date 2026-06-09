@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import { useHomeData } from "../hooks/useHomeData";
 import Hero from "../components/Hero";
 import TestimonialsCarousel from "../components/carousels/TestimonialsCarousel";
 import AgentCarousel from "../components/carousels/AgentCarousel";
-import { homeService } from "../services/homeService";
 import RecentProperties from "../components/RecentProperties";
 import UpcomingProperties from "../components/UpcomingProperties";
 import Statistics from "../components/Statistics";
@@ -11,51 +10,45 @@ import ExploreProperties from "../components/ExploreProperties";
 import Partners from "../components/Partners";
 import FreeConsultation from "../components/FreeConsultation";
 import GetInTouch from "../components/GetInTouch";
+
 function Home() {
-  const [propertiesData, setPropertiesData] = useState([]);
-
-    // fetch properties data from backend API and update state (useEffect with homeService.getPropertiesData)
-  const fetchPropertiesData = useCallback(async () => {
-    try {
-      const res = await homeService.getPropertiesData();
-      setPropertiesData(res.data.properties);
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
-
-  useEffect(() => {
-    Promise.resolve().then(fetchPropertiesData);
-  }, [fetchPropertiesData]);
+  // 1. CONSUME THE COMMON HOOK
+  // Calls the dynamic homeService endpoint, unpacks 'properties' response key, defaults to an empty array
+  const { data: propertiesData, loading: loadingProperties } = useHomeData(
+    "getPropertiesData",
+    "properties",
+    []
+  );
 
   return (
     <div>
       <Hero />
-      {/* remaining content */}
-      {/* recent properties section */}
-      <RecentProperties propertiesData={propertiesData} />
-      {/* upcoming properties */}
-      <UpcomingProperties propertiesData={propertiesData} />
-      {/* stats sections  */}
+      
+      {/* Recent Properties Segment */}
+      <RecentProperties 
+        propertiesData={propertiesData} 
+        isLoading={loadingProperties} 
+      />
+      
+      {/* Upcoming Properties Segment */}
+      <UpcomingProperties 
+        propertiesData={propertiesData} 
+        isLoading={loadingProperties} 
+      />
+      
+      {/* Metrics & Informational Tracks */}
       <Statistics />
-      {/* Solution sections  */}
       <Solutions />
-      {/* Review Carousel section */}
+      
+      {/* Carousel Frameworks */}
       <TestimonialsCarousel />
-
-      {/* Explore Properties by Cities Section */}
       <ExploreProperties />
-
-      {/* Agent Carousel Section */}
       <AgentCarousel />
-
-      {/* Our Real Estate Partners Section */}
+      
+      {/* Supporting Conversion Sections */}
       <Partners />
-
-      {/* free consultation section */}
       <FreeConsultation />
-      {/* get in touch section */}
-    <GetInTouch/>
+      <GetInTouch />
     </div>
   );
 }

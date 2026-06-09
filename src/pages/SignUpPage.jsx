@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
 import image1 from "../assets/images/image1.png";
 import image2 from "../assets/images/image2.png";
@@ -21,7 +20,8 @@ import {
 
 import AuthCarousel from "../components/carousels/AuthCarousel";
 import VerifyWithOtp from "../components/VerifyWithOtp";
-import { authService } from "../services/authService";
+import { useAuthActions } from "../hooks/useAuthActions";
+
 const SignupPage = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -42,6 +42,9 @@ const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showOtpInput, setShowOtpInput] = useState(false);
+
+  // Consume your shared auth actions hook
+  const { loading, registerAction } = useAuthActions();
 
   // Sample Country Codes List
   const countryCodes = [
@@ -69,21 +72,13 @@ const SignupPage = () => {
   };
 
   // HANDLE SUBMIT
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (formData.password !== formData.password_confirmation) {
-      toast.error("Passwords do not match");
-      return;
-    }
-
-    try {
-      const res = await authService.register(activeRole, formData);
-      toast.success(res.message || "OTP sent successfully");
+    
+    // Call the custom hook registration action
+    registerAction(activeRole, formData, () => {
       setShowOtpInput(true);
-    } catch (error) {
-      toast.error(error?.message || "Signup failed");
-    }
+    });
   };
 
   // ROLES
@@ -145,12 +140,13 @@ const SignupPage = () => {
                   <button
                     key={role.key}
                     type="button"
+                    disabled={loading}
                     onClick={() => setActiveRole(role.key)}
                     className={`flex-1 flex items-center justify-center gap-1 h-8 rounded-lg text-[9px] lg:text-[10px] font-medium transition-all duration-200 ${
                       activeRole === role.key
                         ? "bg-white text-[#885EFF] shadow-sm"
                         : "text-gray-400"
-                    }`}
+                    } ${loading ? "opacity-60 cursor-not-allowed" : ""}`}
                   >
                     {role.icon}
                     {role.label}
@@ -169,12 +165,13 @@ const SignupPage = () => {
                     <FaRegUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[11px]" />
                     <input
                       required
+                      disabled={loading}
                       type="text"
                       name="full_name"
                       value={formData.full_name}
                       onChange={handleChange}
                       placeholder="Enter Name"
-                      className="w-full h-10 lg:h-9 border border-gray-300 rounded-xl pl-9 pr-3 text-[12px] outline-none focus:border-[#885EFF]"
+                      className="w-full h-10 lg:h-9 border border-gray-300 rounded-xl pl-9 pr-3 text-[12px] outline-none focus:border-[#885EFF] disabled:bg-gray-50 disabled:text-gray-400"
                     />
                   </div>
                 </div>
@@ -188,17 +185,17 @@ const SignupPage = () => {
                     <FaRegEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[11px]" />
                     <input
                       required
+                      disabled={loading}
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="Enter Email"
-                      className="w-full h-10 lg:h-9 border border-gray-300 rounded-xl pl-9 pr-3 text-[12px] outline-none focus:border-[#885EFF]"
+                      className="w-full h-10 lg:h-9 border border-gray-300 rounded-xl pl-9 pr-3 text-[12px] outline-none focus:border-[#885EFF] disabled:bg-gray-50 disabled:text-gray-400"
                     />
                   </div>
                 </div>
 
-                {/* PHONE NUMBER + COUNTRY CODE DROPDOWN */}
                 {/* PHONE NUMBER + COUNTRY CODE DROPDOWN */}
                 <div>
                   <label className="block text-[11px] font-medium text-gray-700 mb-1">
@@ -210,15 +207,16 @@ const SignupPage = () => {
                       {/* Trigger Button */}
                       <button
                         type="button"
-                        onClick={() => setDropdownOpen(!dropdownOpen)} // Requires standard boolean state: const [dropdownOpen, setDropdownOpen] = useState(false);
-                        className="w-full h-10 lg:h-9 border border-gray-300 rounded-xl px-2.5 text-[11px] font-medium bg-white text-gray-700 flex items-center justify-between outline-none focus:border-[#885EFF] transition"
+                        disabled={loading}
+                        onClick={() => setDropdownOpen(!dropdownOpen)}
+                        className="w-full h-10 lg:h-9 border border-gray-300 rounded-xl px-2.5 text-[11px] font-medium bg-white text-gray-700 flex items-center justify-between outline-none focus:border-[#885EFF] transition disabled:bg-gray-50 disabled:text-gray-400"
                       >
                         <span>{formData.country_code}</span>
                         <span className="text-[8px] text-gray-400">▼</span>
                       </button>
 
                       {/* Popover Options List Box */}
-                      {dropdownOpen && (
+                      {dropdownOpen && !loading && (
                         <ul className="absolute left-0 z-50 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg max-h-40 overflow-y-auto p-1 text-[11px]">
                           {countryCodes.map((item) => (
                             <li key={item.code}>
@@ -250,12 +248,13 @@ const SignupPage = () => {
                       <FaPhone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[11px]" />
                       <input
                         required
+                        disabled={loading}
                         type="tel"
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
                         placeholder="Enter Phone number"
-                        className="w-full h-10 lg:h-9 border border-gray-300 rounded-xl pl-9 pr-3 text-[12px] outline-none focus:border-[#885EFF]"
+                        className="w-full h-10 lg:h-9 border border-gray-300 rounded-xl pl-9 pr-3 text-[12px] outline-none focus:border-[#885EFF] disabled:bg-gray-50 disabled:text-gray-400"
                       />
                     </div>
                   </div>
@@ -270,17 +269,19 @@ const SignupPage = () => {
                     <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[11px]" />
                     <input
                       required
+                      disabled={loading}
                       type={showPassword ? "text" : "password"}
                       name="password"
                       value={formData.password}
                       onChange={handleChange}
                       placeholder="Enter Password"
-                      className="w-full h-10 lg:h-9 border border-gray-300 rounded-xl pl-9 pr-9 text-[12px] outline-none focus:border-[#885EFF]"
+                      className="w-full h-10 lg:h-9 border border-gray-300 rounded-xl pl-9 pr-9 text-[12px] outline-none focus:border-[#885EFF] disabled:bg-gray-50 disabled:text-gray-400"
                     />
                     <button
                       type="button"
+                      disabled={loading}
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 disabled:opacity-50"
                     >
                       {showPassword ? (
                         <FaRegEyeSlash className="text-gray-400 text-[12px]" />
@@ -300,19 +301,21 @@ const SignupPage = () => {
                     <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[11px]" />
                     <input
                       required
+                      disabled={loading}
                       type={showConfirmPassword ? "text" : "password"}
                       name="password_confirmation"
                       value={formData.password_confirmation}
                       onChange={handleChange}
                       placeholder="Enter Confirm Password"
-                      className="w-full h-10 lg:h-9 border border-gray-300 rounded-xl pl-9 pr-9 text-[12px] outline-none focus:border-[#885EFF]"
+                      className="w-full h-10 lg:h-9 border border-gray-300 rounded-xl pl-9 pr-9 text-[12px] outline-none focus:border-[#885EFF] disabled:bg-gray-50 disabled:text-gray-400"
                     />
                     <button
                       type="button"
+                      disabled={loading}
                       onClick={() =>
                         setShowConfirmPassword(!showConfirmPassword)
                       }
-                      className="absolute right-3 top-1/2 -translate-y-1/2"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 disabled:opacity-50"
                     >
                       {showConfirmPassword ? (
                         <FaRegEyeSlash className="text-gray-400 text-[12px]" />
@@ -323,12 +326,17 @@ const SignupPage = () => {
                   </div>
                 </div>
 
-                {/* SUBMIT */}
+                {/* SUBMIT BUTTON WITH LOADING STATE */}
                 <button
                   type="submit"
-                  className="mt-1 w-full h-10 lg:h-9 rounded-xl bg-[#885EFF] hover:bg-[#6A3DFF] text-white text-[12px] font-medium transition-all duration-300"
+                  disabled={loading}
+                  className={`mt-1 w-full h-10 lg:h-9 rounded-xl bg-[#885EFF] text-white text-[12px] font-medium transition-all duration-300 ${
+                    loading 
+                      ? "opacity-75 cursor-not-allowed bg-purple-400" 
+                      : "hover:bg-[#6A3DFF]"
+                  }`}
                 >
-                  Sign Up
+                  {loading ? "Creating Account..." : "Sign Up"}
                 </button>
               </form>
 
@@ -344,7 +352,10 @@ const SignupPage = () => {
                 {/* SOCIAL BUTTONS */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {/* GOOGLE */}
-                  <button className="w-full h-10 lg:h-9 border border-gray-300 rounded-xl flex items-center justify-center gap-2 text-[11px] font-medium text-gray-700 hover:bg-gray-50 transition">
+                  <button 
+                    disabled={loading}
+                    className="w-full h-10 lg:h-9 border border-gray-300 rounded-xl flex items-center justify-center gap-2 text-[11px] font-medium text-gray-700 hover:bg-gray-50 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
                     <img
                       src="https://www.svgrepo.com/show/475656/google-color.svg"
                       alt="google"
@@ -354,7 +365,10 @@ const SignupPage = () => {
                   </button>
 
                   {/* APPLE */}
-                  <button className="w-full h-10 lg:h-9 border border-gray-300 rounded-xl flex items-center justify-center gap-2 text-[11px] font-medium text-gray-700 hover:bg-gray-50 transition">
+                  <button 
+                    disabled={loading}
+                    className="w-full h-10 lg:h-9 border border-gray-300 rounded-xl flex items-center justify-center gap-2 text-[11px] font-medium text-gray-700 hover:bg-gray-50 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
                     <FaApple className="text-[12px]" />
                     Continue with Apple
                   </button>
@@ -364,8 +378,10 @@ const SignupPage = () => {
                 <p className="text-center text-[11px] text-gray-500 mt-3">
                   Already have an account?{" "}
                   <button
+                    type="button"
+                    disabled={loading}
                     onClick={() => navigate("/login")}
-                    className="text-[#885EFF] font-medium cursor-pointer hover:underline"
+                    className="text-[#885EFF] font-medium cursor-pointer hover:underline disabled:opacity-50 disabled:no-underline"
                   >
                     Login
                   </button>

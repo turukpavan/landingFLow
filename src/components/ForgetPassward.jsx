@@ -1,33 +1,21 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
 import VerifyWithOtp from "./VerifyWithOtp";
-import { authService } from "../services/authService";
-import { BackArrowIcon, OutlinedMailIcon } from "../components/ui/Icons";
+import { BackArrowIcon, OutlinedMailIcon } from "./Icons";
+import { useAuthActions } from "../hooks/useAuthActions";
 export default function ForgotPassword({ setForgetPassword }) {
-  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [codeScreen, setCodeScreen] = useState(false);
   useState(["", "", "", "", "", ""]);
+
+     const { loading, forgotPasswordAction } = useAuthActions();
+   
   // submit button for forgetpassword screen
   const handleForgotPassward = async (e) => {
     e.preventDefault();
     // Handle sending the code here
-    try {
-      setLoading(true);
-      const res = await authService.forgotPassword({email});
-      if (res.status === 200) {
-        toast.success(res?.otp || "Verification code sent to your email.");
-      }
-      setCodeScreen(true);
-      setLoading(false);
-    } catch (error) {
-      toast.error(
-        error?.message || "Failed to send verification code.",
-      );
-      setLoading(false);
-    } finally {
-      setLoading(false);
-    }
+   forgotPasswordAction({email},()=>{
+    setCodeScreen(true)
+   })
   };
 
   return (

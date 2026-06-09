@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import ResetPassword from "./ResetPassword";
-import { authService } from "../services/authService";
-import { ChevronLeftIcon } from "../components/ui/Icons";
+import { ChevronLeftIcon } from "./Icons";
+import { useAuthActions } from "../hooks/useAuthActions";
 
 const VerifyWithOtp = ({ email, showotpScreen, type }) => {
   const [showResetPassScreen, setShowResetPassScreen] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [otpArray, setOtpArray] = useState(["", "", "", "", "", ""]);
+
+  // Connect to shared authentication layout state management
+  const { loading, verifyOtpAction, resendOtpAction } = useAuthActions();
 
   // OTP CHANGE INDIVIDUAL CHARACTER
   const handleOtpChange = (value, index) => {
@@ -27,13 +29,13 @@ const VerifyWithOtp = ({ email, showotpScreen, type }) => {
   const handlePaste = (e) => {
     e.preventDefault();
     const pastedData = e.clipboardData.getData("text").trim();
-    
+
     // Validate if the pasted text is numeric and fits within our boundaries
     if (!/^\d{6}$/.test(pastedData)) return;
 
     const digits = pastedData.split("");
     setOtpArray(digits);
-    
+
     // Focus the last input box
     document.getElementById("otp-5")?.focus();
   };
@@ -50,44 +52,34 @@ const VerifyWithOtp = ({ email, showotpScreen, type }) => {
     }
   };
 
-  // RESEND OTP REQUEST
-  const handleResendOtp = async () => {
-    try {
-      setLoading(true);
-      const res = await authService.resendOtp({ email });
-      toast.success(res?.message || "OTP Resent Successfully");
-    } catch (error) {
-      toast.error(error?.message || "Failed To Resend OTP");
-    } finally {
-      setLoading(false);
-    }
+  // RESEND OTP REQUEST VIA HOOK
+  const handleResendOtp = () => {
+    resendOtpAction({ email });
   };
 
-  // VERIFY OTP FORM DISPATCH
-  const handleVerifyOtp = async () => {
+  // VERIFY OTP FORM DISPATCH VIA HOOK
+  const handleVerifyOtp = () => {
     const rawOtpString = otpArray.join("");
     if (rawOtpString.length !== 6) {
       toast.error("Please enter a valid 6-digit code.");
       return;
     }
 
-    try {
-      setLoading(true);
-      const res = await authService.verifyOtp({ email, otp: rawOtpString });
-      
-      if (type === "signup") {
-        toast.success(res?.message || "Account created successfully");
-        showotpScreen(false);
-      } else {
-        setShowResetPassScreen(true);
-      }
-      
-      setOtpArray(["", "", "", "", "", ""]);
-    } catch (error) {
-      toast.error(error?.message || "Invalid OTP");
-    } finally {
-      setLoading(false);
-    }
+    const payload = { email, otp: rawOtpString };
+
+    verifyOtpAction(
+      payload,
+      () => {
+        // Run successful hook lifecycle navigation tasks
+        if (type === "signup") {
+          showotpScreen(false);
+        } else {
+          setShowResetPassScreen(true);
+        }
+        setOtpArray(["", "", "", "", "", ""]);
+      },
+      type,
+    );
   };
 
   return showResetPassScreen ? (
@@ -99,7 +91,7 @@ const VerifyWithOtp = ({ email, showotpScreen, type }) => {
         type="button"
         disabled={loading}
         onClick={() => showotpScreen(false)}
-        className="flex items-center gap-2 text-[11px] text-gray-500 self-start disabled:opacity-50"
+        className="flex items-center gap-2 text-[11px] text-gray-500 self-start disabled:opacity-50 transition-opacity duration-200"
       >
         <span className="bg-[#F3EEFF] p-1.5 rounded-md flex items-center justify-center">
           <ChevronLeftIcon />
@@ -120,7 +112,10 @@ const VerifyWithOtp = ({ email, showotpScreen, type }) => {
       </div>
 
       {/* 6-DIGIT OTP GRID */}
-      <div className="flex items-center justify-between gap-2 my-2" onPaste={handlePaste}>
+      <div
+        className="flex items-center justify-between gap-2 my-2"
+        onPaste={handlePaste}
+      >
         {otpArray.map((digit, index) => (
           <input
             key={index}
@@ -143,7 +138,11 @@ const VerifyWithOtp = ({ email, showotpScreen, type }) => {
         type="button"
         disabled={loading}
         onClick={handleVerifyOtp}
-        className="w-full h-10 rounded-xl bg-[#885EFF] hover:bg-[#6A3DFF] disabled:bg-purple-400 text-white text-[12px] font-medium transition-all duration-300 shadow-sm"
+        className={`w-full h-10 rounded-xl text-white text-[12px] font-medium transition-all duration-300 shadow-sm ${
+          loading
+            ? "bg-purple-400 cursor-not-allowed"
+            : "bg-[#885EFF] hover:bg-[#6A3DFF]"
+        }`}
       >
         {loading ? "Verifying..." : "Verify"}
       </button>
@@ -155,7 +154,7 @@ const VerifyWithOtp = ({ email, showotpScreen, type }) => {
           type="button"
           disabled={loading}
           onClick={handleResendOtp}
-          className="text-[#885EFF] font-semibold hover:underline disabled:opacity-50"
+          className="text-[#885EFF] font-semibold hover:underline disabled:text-purple-300 disabled:no-underline disabled:cursor-not-allowed"
         >
           Resend
         </button>

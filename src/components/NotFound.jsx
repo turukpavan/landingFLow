@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { BackArrowIcon } from "../components/ui/Icons"; // Reuses your consolidated icon file
+import { BackArrowIcon } from "./Icons"; // Reuses your consolidated icon file
 
 const NotFound = () => {
   const navigate = useNavigate();

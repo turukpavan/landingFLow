@@ -6,7 +6,8 @@ import {
   VectorCurveIcon,
   DropdownChevronIcon,
   ArrowRightIcon,
-} from "../components/ui/Icons";
+} from "./Icons";
+import { toast } from "react-toastify";
 
 const GetInTouch = () => {
   const [formData, setFormData] = useState({
@@ -29,7 +30,7 @@ const GetInTouch = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Data Submitted Safely:", formData);
+    toast.success("Form Data Submitted Safely:");
   };
 
   return (

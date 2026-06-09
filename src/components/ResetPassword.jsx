@@ -1,41 +1,37 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { authService } from "../services/authService";
-import { LockIcon, EyeOpenIcon, EyeClosedIcon } from "../components/ui/Icons";
+import { toast } from "react-toastify";
+import { LockIcon, EyeOpenIcon, EyeClosedIcon } from "./Icons";
+import { useAuthActions } from "../hooks/useAuthActions";
 
 export default function ResetPassword({ email }) {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleResetPassward = async (e) => {
+  // Consume your custom hook actions (Removed the old redundant local loading state)
+  const { loading, resetPasswordAction } = useAuthActions();
+
+  const handleResetPassward = (e) => {
     e.preventDefault();
+    
     if (newPassword !== confirmPassword) {
       toast.error("Passwords do not match!");
       return;
     }
 
-    try {
-      setLoading(true);
-      const res = await authService.resetPassword({
-        email: email,
-        password: newPassword,
-        password_confirmation: confirmPassword,
-      });
-      
-      toast.success(
-        res?.message || "Password reset successful. You can now log in."
-      );
+    const payload = {
+      email: email,
+      password: newPassword,
+      password_confirmation: confirmPassword,
+    };
+
+    // Trigger action from hook with navigation fallback on success
+    resetPasswordAction(payload, () => {
       navigate("/login");
-    } catch (error) {
-      toast.error(error?.message || "Failed to reset password.");
-    } finally {
-      setLoading(false);
-    }
+    });
   };
 
   return (
@@ -71,13 +67,15 @@ export default function ResetPassword({ email }) {
               placeholder="Enter New Password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              className="w-full pl-11 pr-11 py-3 text-xs border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-purple-600 focus:border-purple-600 placeholder-gray-400 font-medium text-gray-800"
+              disabled={loading}
+              className="w-full pl-11 pr-11 py-3 text-xs border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-purple-600 focus:border-purple-600 placeholder-gray-400 font-medium text-gray-800 disabled:bg-gray-50 disabled:text-gray-400"
               required
             />
             <button
               type="button"
+              disabled={loading}
               onClick={() => setShowNewPassword(!showNewPassword)}
-              className="absolute right-4 text-gray-400 hover:text-gray-600 focus:outline-none flex items-center justify-center"
+              className="absolute right-4 text-gray-400 hover:text-gray-600 focus:outline-none flex items-center justify-center disabled:opacity-50"
             >
               {showNewPassword ? <EyeClosedIcon /> : <EyeOpenIcon />}
             </button>
@@ -102,13 +100,15 @@ export default function ResetPassword({ email }) {
               placeholder="Enter Confirm Password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full pl-11 pr-11 py-3 text-xs border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-purple-600 focus:border-purple-600 placeholder-gray-400 font-medium text-gray-800"
+              disabled={loading}
+              className="w-full pl-11 pr-11 py-3 text-xs border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-purple-600 focus:border-purple-600 placeholder-gray-400 font-medium text-gray-800 disabled:bg-gray-50 disabled:text-gray-400"
               required
             />
             <button
               type="button"
+              disabled={loading}
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute right-4 text-gray-400 hover:text-gray-600 focus:outline-none flex items-center justify-center"
+              className="absolute right-4 text-gray-400 hover:text-gray-600 focus:outline-none flex items-center justify-center disabled:opacity-50"
             >
               {showConfirmPassword ? <EyeClosedIcon /> : <EyeOpenIcon />}
             </button>
@@ -119,7 +119,11 @@ export default function ResetPassword({ email }) {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-[#8353FF] hover:bg-[#7242EE] disabled:bg-purple-400 text-white text-xs font-semibold py-3.5 px-4 rounded-xl transition duration-200 shadow-sm mt-2"
+          className={`w-full text-white text-xs font-semibold py-3.5 px-4 rounded-xl transition duration-200 shadow-sm mt-2 ${
+            loading 
+              ? "bg-purple-400 cursor-not-allowed" 
+              : "bg-[#8353FF] hover:bg-[#7242EE]"
+          }`}
         >
           {loading ? "Resetting..." : "Reset"}
         </button>

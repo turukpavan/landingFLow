@@ -13,18 +13,10 @@ const apiClient = axios.create({
 // REQUEST INTERCEPTOR
 apiClient.interceptors.request.use(
   (config) => {
-    // Check if the request explicitly asks to skip authorization
-    if (config.skipAuth) {
-      return config;
-    }
     
     const token = localStorage.getItem("token");
 
-    // Only attach token if it exists and it's going to your internal baseURL
     if (token && config.url?.startsWith('/')) {
-      config.headers.Authorization = `Bearer ${token}`;
-    } else if (token && !config.skipAuth) {
-      // Fallback for absolute URLs pointing to your base domain
       config.headers.Authorization = `Bearer ${token}`;
     }
 
@@ -39,7 +31,6 @@ apiClient.interceptors.response.use(
   (error) => {
     if (error.response) {
       const { status, data } = error.response;
-      console.error(data)
 
       if (status === 401) {
         // FIX: Prevent infinite redirect loops on the login page

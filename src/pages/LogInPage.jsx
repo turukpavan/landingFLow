@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { FaApple, FaEye, FaEyeSlash, FaLock } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
@@ -10,14 +9,13 @@ import image3 from "../assets/images/image3.png";
 
 import AuthCarousel from "../components/carousels/AuthCarousel";
 import ForgotPassword from "../components/ForgetPassward";
-import { authService } from "../services/authService";
+import { useAuthActions } from "../hooks/useAuthActions";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const carouselImages = [image3, image2, image1];
 
   // STATE
-  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -41,29 +39,16 @@ const LoginPage = () => {
     }));
   };
 
-  // HANDLE SUBMIT
-  const handleSubmit = async (e) => {
+ // Consume the hook
+  const { loading, loginAction } = useAuthActions();
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      setLoading(true);
-      const res = await authService.login(formData);
-
-      // Store tokens safely
-      localStorage.setItem("token", res.data.data.token);
-      localStorage.setItem("refreshToken", res.data.data.refresh_token);
-
-      // Store user data
-      localStorage.setItem("user", JSON.stringify(res.data.data.user));
-
-      toast.success(res.message || "Login successful");
-
-      // Navigate to home dashboard
+    
+    // Pass the form payload and a clear success callback function
+    loginAction(formData, () => {
       navigate("/");
-    } catch (error) {
-      toast.error(error?.message || "Login failed");
-    } finally {
-      setLoading(false);
-    }
+    });
   };
 
   return (

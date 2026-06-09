@@ -1,6 +1,6 @@
 import { useState } from "react";
 import frame224 from "../assets/images/frame224.png";
-import { VectorCurveIcon } from "../components/ui/Icons";
+import { VectorCurveIcon } from "./Icons";
 
 const Partners = () => {
   // Dynamic Corporate Partners Mock SVG Logos

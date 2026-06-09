@@ -1,5 +1,5 @@
 import image4 from "../assets/images/image4.png";
-import { ArrowRightIcon } from "../components/ui/Icons";
+import { ArrowRightIcon } from "./Icons";
 
 const FreeConsultation = () => {
   return (

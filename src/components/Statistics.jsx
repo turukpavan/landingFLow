@@ -5,7 +5,7 @@ import {
   BadgeCheckIcon,
   HappyFaceIcon,
   PaperPlaneIcon,
-} from "../components/ui/Icons";
+} from "./Icons";
 
 const Statistics = () => {
   const [statsData] = useState([

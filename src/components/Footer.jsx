@@ -7,7 +7,7 @@ import {
   InstagramIcon,
   TelegramIcon,
   TwitterIcon,
-} from "../components/ui/Icons";
+} from "./Icons";
 
 const Footer = () => {
   return (

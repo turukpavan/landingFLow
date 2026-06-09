@@ -13,7 +13,7 @@ import {
   OfficeBuildingIcon,
   HomeIcon,
   CalendarIcon
-} from "../components/ui/Icons";
+} from "./Icons";
 
 const Hero = () => {
   const videoSources = [Video1, Video2];

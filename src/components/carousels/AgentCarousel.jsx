@@ -1,31 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { homeService } from "../../services/homeService";
 import { BASE_URL } from "../../api/api";
 import {
   VectorCurveIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-} from "../../components/ui/Icons";
+} from "../Icons";
+import { useHomeData } from "../../hooks/useHomeData";
 
 const AgentCarousel = () => {
-  const [agents, setAgents] = useState([]);
-  const [loadingAgents, setLoadingAgents] = useState(true);
 
-  const fetchAgents = useCallback(async () => {
-    try {
-      setLoadingAgents(true);
-      const res = await homeService.getAgentsData();
-      setAgents(res.data.agents || []);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoadingAgents(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    Promise.resolve().then(fetchAgents);
-  }, [fetchAgents]);
+// custom hook
+  const { data: agents, loading: loadingAgents } = useHomeData("getAgentsData", "agents");
 
   const [currentAgentIndex, setCurrentAgentIndex] = useState(0);
   const autoPlayTimer = useRef(null);

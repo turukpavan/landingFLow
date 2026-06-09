@@ -1,18 +1,17 @@
 import { useState, useEffect } from "react";
-import { homeService } from "../../services/homeService";
 import {
   VectorCurveIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   StarIcon,
-} from "../../components/ui/Icons";
+} from "../Icons";
+import { useHomeData } from "../../hooks/useHomeData";
 
 const TestimonialsCarousel = () => {
-  const [testimonials, setTestimonials] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visibleSlots, setVisibleSlots] = useState(1);
 
+  const { data: testimonials, loading } = useHomeData("getTestimonialsData", "reviews");
   // 1. DYNAMICALLY DETECT THE VISIBLE CARDS COUNT BASED ON SCREEN SIZE
   useEffect(() => {
     const handleResize = () => {
@@ -30,23 +29,7 @@ const TestimonialsCarousel = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        setLoading(true);
-        const response = await homeService.getTestimonialsData();
-        if (response.status && response.data?.reviews) {
-          setTestimonials(response.data.reviews);
-        }
-      } catch (error) {
-        console.error("Error loading testimonials:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchReviews();
-  }, []);
-
+ 
   const totalItems = testimonials.length;
 
   // 2. SAFE BOUNDARY NAVIGATION
